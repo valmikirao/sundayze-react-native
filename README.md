@@ -1,1 +1,0 @@
-# sundayze-react-native
