@@ -3,7 +3,19 @@
 /* @var $content string */
 
 \humhub\assets\AppAsset::register($this);
+
+Yii::$app->request->enableCsrfValidation = false
+
 ?>
+
+<?php if (false) : ?>
+
+<?php $this->head() ?>
+<?= $this->render('main-yaml'); ?>
+
+<?php endif; ?>
+<?php if (true) : ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -13,10 +25,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <?php $this->head() ?>
         <?= $this->render('head'); ?>
-        <?php Yii::$app->response->headers->add('sdz-data', 'Hello World') ?>
     </head>
     <body>
-        <!-- Wubalubadubdub -->
+        <!-- with endif -->
         <?php $this->beginBody() ?>
 
         <!-- start: first top navigation bar -->
@@ -61,3 +72,4 @@
     </body>
 </html>
 <?php $this->endPage() ?>
+<?php endif; ?>
