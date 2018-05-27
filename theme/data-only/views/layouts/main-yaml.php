@@ -1,4 +1,5 @@
 <?php use yii\helpers\Json ?>
-<?php $this->head() ?>
+<?php use Yii?>
 --
-some: <?= Json::encode("stri\"n'g {}") ?>
+_csrfParam: <?= Json::encode(Yii::$app->request->csrfParam) ?>
+_csrfToken: <?= Json::encode(Yii::$app->request->csrfToken) ?>

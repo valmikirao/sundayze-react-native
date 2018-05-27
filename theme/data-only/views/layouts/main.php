@@ -4,17 +4,21 @@
 
 \humhub\assets\AppAsset::register($this);
 
+/*
+ First of all, there is probably a better place to disable csrf validation
+ TODO: Also, before going to production, we need a much better way to avoid malicious css.  Or do we?  Not sure
+*/
 Yii::$app->request->enableCsrfValidation = false
 
 ?>
 
-<?php if (false) : ?>
+<?php if (true) : ?>
 
 <?php $this->head() ?>
 <?= $this->render('main-yaml'); ?>
 
 <?php endif; ?>
-<?php if (true) : ?>
+<?php if (false) : ?>
 
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
