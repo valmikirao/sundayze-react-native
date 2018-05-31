@@ -1,13 +1,13 @@
 const _ = require('lodash');
 const qs =  require('qs');
 
-const request = require('request');
-
-function login({username, password}) {
+const login = ({fetch, FormData}) => ({username, password}) => {
 
   const form = {
     Login: {username, password}
   };
+
+  const body = qs.stringify(form)
 
   const headers = {
     'Pragma': 'no-cache',
@@ -26,18 +26,19 @@ function login({username, password}) {
 
   var options = {
     method: 'POST',
-    url: 'http://ec2-54-235-233-111.compute-1.amazonaws.com/humhub/index.php',
     qs: { r: 'user/auth/login' },
     headers,
-    form
+    body
   };
 
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    debugger;
-    console.log(response.statusCode, response.statusMessage);
-    // console.log(body);
-  });
-}
+  const url = 'http://ec2-54-235-233-111.compute-1.amazonaws.com/humhub/index.php';
 
-exports.login = login
+  fetch(url, options).then((response) => {
+    console.log(response.status);
+    // console.log(body);
+  })
+  .catch((err) => console.error(err));
+
+};
+
+module.exports = login
