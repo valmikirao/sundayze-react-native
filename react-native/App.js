@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Alert, AppRegistry } from 'react-native';
 
-import {login} from './lib/login';
-
+// import {login} from './lib/login';
+import {eric} from './lib/stream-client';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,6 +19,13 @@ export default class App extends React.Component {
       login({username, password});
     };
 
+    debugger
+
+    return <View style={styles.container}>
+      <Text>Danger Zone!!!</Text>
+    </View>;
+
+    /*
     return (
       <View style={styles.container}>
         <Text>Write something to post</Text>
@@ -38,6 +45,7 @@ export default class App extends React.Component {
         />
       </View>
     );
+    */
   }
 }
 
