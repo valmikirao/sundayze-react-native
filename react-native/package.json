@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "1.14.0",
+    "@types/react": "^16.3.17",
+    "@types/react-native": "^0.55.17",
+    "@types/react-test-renderer": "^16.0.1",
     "jest-expo": "~27.0.0",
-    "react-test-renderer": "16.3.1"
+    "react-native-scripts": "1.14.0",
+    "react-native-typescript-transformer": "^1.2.9",
+    "react-test-renderer": "16.3.1",
+    "ts-node": "^6.1.0",
+    "typescript": "^2.9.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -13,7 +19,9 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc",
+    "it": "time"
   },
   "jest": {
     "preset": "jest-expo"
@@ -25,8 +33,10 @@
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "qs": "^6.5.2",
     "react": "16.3.1",
-    "react-native": "~0.55.2"
+    "react-native": "~0.55.2",
+    "timers": "^0.1.1"
   }
 }
