@@ -3,12 +3,8 @@
 react-native/tmp
 react-native/.vscode
 react-native/.idea
-react-native/*.js
-
-# standard ignores
-
-# expo
-.expo/
+react-native/.expo
+react-native/.expo-source
 
 # dependencies
 */node_modules

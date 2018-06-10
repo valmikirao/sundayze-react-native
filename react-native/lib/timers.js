@@ -1,18 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var timers_1 = require("timers");
-var es6_promise_1 = require("es6-promise");
-function timeout(interval) {
-    return new es6_promise_1.Promise(function (resolve, reject) {
+import {setTimeout} from 'timers';
+import {Promise} from "es6-promise";
+
+export function timeout(interval) {
+    return new Promise((resolve, reject) => {
         try {
-            timers_1.setTimeout(resolve, interval);
+            setTimeout(resolve, interval);
         }
-        catch (err) {
+        catch(err) {
             reject(err);
         }
-    });
+    })
 }
-exports.timeout = timeout;
-exports.default = {
-    timeout: timeout
-};
+
+export default {
+    timeout
+}
