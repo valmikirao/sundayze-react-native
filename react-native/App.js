@@ -1,14 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button, AppRegistry } from 'react-native';
-import Stream from './lib/stream-for-client';
+// import Stream from './lib/stream-for-client';
+import { StreamOfSharedItems } from './lib/components/group-view';
 
-interface IAppState {
-    note? : string,
-    shares : {
-        note: string,
-        time: string
-    }[]
-}
 
 export default class App extends React.Component<{}, IAppState> {
   constructor(props : {}) {
@@ -16,23 +10,32 @@ export default class App extends React.Component<{}, IAppState> {
 
     this.state = {
         note : null,
-        shares : []
+        shares : [
+          {
+            note: 'Hello',
+            time : '1/1/2018'
+          },
+          {
+            note: 'Goodbye',
+            time : '1/1/2018'
+          }
+        ]
     };
 
-    Stream.listToronto(responseShares => {
-        const newShares = responseShares.map(share => ({
-                note: share.note,
-                time: share.time
-        }));
+    // Stream.listToronto(responseShares => {
+    //     const newShares = responseShares.map(share => ({
+    //             note: share.note,
+    //             time: share.time
+    //     }));
 
-        this.setState({
-            ...this.state,
-            shares : [
-                ...this.state.shares,
-                ...newShares
-            ]
-        })
-    })
+    //     this.setState({
+    //         ...this.state,
+    //         shares : [
+    //             ...this.state.shares,
+    //             ...newShares
+    //         ]
+    //     })
+    // })
   }
 
   render() {
@@ -40,7 +43,7 @@ export default class App extends React.Component<{}, IAppState> {
     const onPress = () => {
       const {note} = state;
 
-      Stream.shareToronto({note});
+      // Stream.shareToronto({note});
     };
 
     debugger;
@@ -53,7 +56,7 @@ export default class App extends React.Component<{}, IAppState> {
 
     return (
       <View style={styles.container}>
-        { sharesAsComponents }
+        <StreamOfSharedItems sharedItems={ [shares[0]] }/>
         <Text>Write something to post</Text>
         <TextInput
           style={{height: 40, padding: 10}}
