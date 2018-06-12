@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button, AppRegistry } from 'react-native';
+import ReactRedux from 'react-redux';
+import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
 // import Stream from './lib/stream-for-client';
 import { StreamOfSharedItems } from './lib/components/group-view';
 
 
-export default class App extends React.Component<{}, IAppState> {
-  constructor(props : {}) {
+
+export default class App extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -16,7 +18,7 @@ export default class App extends React.Component<{}, IAppState> {
             time : '1/1/2018'
           },
           {
-            note: 'Goodbye',
+            note: 'Goodbye?',
             time : '1/1/2018'
           }
         ]
@@ -56,7 +58,7 @@ export default class App extends React.Component<{}, IAppState> {
 
     return (
       <View style={styles.container}>
-        <StreamOfSharedItems sharedItems={ [shares[0]] }/>
+        <StreamOfSharedItems sharedItems={ shares }/>
         <Text>Write something to post</Text>
         <TextInput
           style={{height: 40, padding: 10}}
