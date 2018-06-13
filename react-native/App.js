@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 import { Provider }  from 'react-redux';
 import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
 // import Stream from './lib/stream-for-client';
-import { StreamOfSharedItems } from './lib/components/group-view';
+import { GroupView } from './lib/components/group-view/group-view';
 
 const DEBUG_SHARED_ITEMS = [
   {
@@ -12,21 +12,9 @@ const DEBUG_SHARED_ITEMS = [
   },
   {
     note: 'Goodbye',
-    time : '1/1/2018'
+    time : '1/1/2019'
   }
 ];
-
-const TMP_DEBUG_SHARED_ITEMS = [
-  {
-    note: 'tmp Hello',
-    time : '1/1/2018'
-  },
-  {
-    note: 'tmp Goodbye?',
-    time : '1/1/2018'
-  }
-]
-
 
 class App extends React.Component {
   constructor(props) {
@@ -61,33 +49,20 @@ class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <StreamOfSharedItems sharedItems={ TMP_DEBUG_SHARED_ITEMS }/>
-        <Text>Write something to post</Text>
-        <TextInput
-          style={{height: 40, padding: 10}}
-          placeholder="note"
-          onChangeText={note => this.setState({
-              ...this.state,
-              note
-          })}
-        />
-        <Button
-          onPress={onPress}
-          title="Share!"
-        />
+        <GroupView/>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+};
 
 
 
