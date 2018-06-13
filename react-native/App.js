@@ -1,28 +1,36 @@
 import React from 'react';
-import ReactRedux from 'react-redux';
+import { createStore } from 'redux';
+import { Provider }  from 'react-redux';
 import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
 // import Stream from './lib/stream-for-client';
 import { StreamOfSharedItems } from './lib/components/group-view';
 
+const DEBUG_SHARED_ITEMS = [
+  {
+    note: 'Hello',
+    time : '1/1/2018'
+  },
+  {
+    note: 'Goodbye',
+    time : '1/1/2018'
+  }
+];
+
+const TMP_DEBUG_SHARED_ITEMS = [
+  {
+    note: 'tmp Hello',
+    time : '1/1/2018'
+  },
+  {
+    note: 'tmp Goodbye?',
+    time : '1/1/2018'
+  }
+]
 
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-        note : null,
-        shares : [
-          {
-            note: 'Hello',
-            time : '1/1/2018'
-          },
-          {
-            note: 'Goodbye?',
-            time : '1/1/2018'
-          }
-        ]
-    };
 
     // Stream.listToronto(responseShares => {
     //     const newShares = responseShares.map(share => ({
@@ -41,30 +49,25 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {state} = this;
+    const {state, props} = this;
+    
     const onPress = () => {
       const {note} = state;
 
       // Stream.shareToronto({note});
     };
 
-    debugger;
     let key = 0;
-
-    const {shares} = state;
-    const sharesAsComponents = shares.map(share => <Text key={ key++ }>
-        {share.note} at {share.time}
-    </Text>);
 
     return (
       <View style={styles.container}>
-        <StreamOfSharedItems sharedItems={ shares }/>
+        <StreamOfSharedItems sharedItems={ TMP_DEBUG_SHARED_ITEMS }/>
         <Text>Write something to post</Text>
         <TextInput
           style={{height: 40, padding: 10}}
           placeholder="note"
           onChangeText={note => this.setState({
-              ...state,
+              ...this.state,
               note
           })}
         />
@@ -86,4 +89,29 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => App);
+
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INIT' : {
+      return {
+        sharedItems : DEBUG_SHARED_ITEMS
+      }
+    }
+    default : 
+      return state;
+  }
+}
+
+let store = createStore(reducer);
+store.dispatch({type : 'INIT'});
+
+export default class ReduxApp extends React.Component {
+  render() {
+    return <Provider store={ store }>
+      <App/>
+    </Provider>;
+  }
+}
+
+AppRegistry.registerComponent('AwesomeProject', () => ReduxApp);
