@@ -3,9 +3,9 @@ import { createStore } from 'redux';
 import { Provider }  from 'react-redux';
 import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
 // import Stream from './lib/stream-for-client';
-import { GroupView } from './lib/components/group-view/group-view';
+import { GroupView } from './lib/components/group-view';
 
-const DEBUG_SHARED_ITEMS = [
+let DEBUG_SHARED_ITEMS = [
   {
     note: 'Hello',
     time : '1/1/2018'
@@ -15,6 +15,12 @@ const DEBUG_SHARED_ITEMS = [
     time : '1/1/2019'
   }
 ];
+
+// DEBUG_SHARED_ITEMS = [
+//   ...DEBUG_SHARED_ITEMS,
+//   ...DEBUG_SHARED_ITEMS,
+//   ...DEBUG_SHARED_ITEMS
+// ];
 
 class App extends React.Component {
   constructor(props) {
