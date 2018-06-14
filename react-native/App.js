@@ -2,17 +2,35 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider }  from 'react-redux';
 import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
+
 // import Stream from './lib/stream-for-client';
 import { GroupView } from './lib/components/group-view';
+import { styles } from './lib/styles/app-styles';
+
+const image_x = require('./src-assets/X.png');
+const selfie = require('./src-assets/selfie.png');
+const selfie2 = require('./src-assets/selfie-2.png');
 
 let DEBUG_SHARED_ITEMS = [
   {
     note: 'Hello',
-    time : '1/1/2018'
+    time: '1/1/2018',
+    pic: selfie
   },
   {
     note: 'Goodbye',
-    time : '1/1/2019'
+    time: '1/1/2019',
+    pic: selfie2,
+  },
+  {
+    note: 'Good morning',
+    time: '1/2/2019',
+    pic: selfie,
+  },
+  {
+    note: 'Good evening',
+    time: '1/2/2019',
+    pic: selfie2,
   }
 ];
 
@@ -54,23 +72,12 @@ class App extends React.Component {
     let key = 0;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.app }>
         <GroupView/>
       </View>
     );
   }
 }
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-};
-
-
 
 function reducer(state, action) {
   switch (action.type) {
