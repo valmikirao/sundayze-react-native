@@ -72,7 +72,7 @@ class App extends React.Component {
     let key = 0;
 
     return (
-      <View style={styles.app }>
+      <View style={styles.app }>Reac
         <GroupView/>
       </View>
     );
