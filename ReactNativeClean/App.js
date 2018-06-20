@@ -1,11 +1,42 @@
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider }  from 'react-redux';
-import { StyleSheet, Text, TextInput, View, Button, AppRegistry, Image } from 'react-native';
+import {
+  AppRegistry,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { RNCamera } from 'react-native-camera';
 
 // import Stream from './lib/stream-for-client';
 import { GroupView } from './lib/components/group-view';
-import { styles } from './lib/styles/app-styles';
+// import { styles } from './lib/styles/app-styles';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black'
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20
+  }
+});
+
 
 const image_x = require('./src-assets/X.png');
 const selfie = require('./src-assets/selfie.png');
@@ -13,7 +44,7 @@ const selfie2 = require('./src-assets/selfie-2.png');
 
 let DEBUG_SHARED_ITEMS = [
   {
-    note: 'Hello',
+    note: 'Hello 3',
     time: '1/1/2018',
     pic: selfie
   },
@@ -72,11 +103,30 @@ class App extends React.Component {
     let key = 0;
 
     return (
-      <View style={styles.app }>
-        <GroupView/>
+      <View style={styles.container}>
+        <RNCamera
+          ref={ref => {
+            this.camera = ref;
+          }}
+          style = {styles.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          permissionDialogTitle={'Permission to use camera'}
+          permissionDialogMessage={'We need your permission to use your camera phone'}
+        />
+        <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+          <TouchableOpacity
+            onPress={this.takePicture.bind(this)}
+            style = {styles.capture}
+          >
+            <Text style={{fontSize: 14}}> SNAP </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
+
+  takePicture() {}
 }
 
 function reducer(state, action) {

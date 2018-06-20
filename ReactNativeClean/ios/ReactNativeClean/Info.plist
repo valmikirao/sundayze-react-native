@@ -52,5 +52,13 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+    <string>Allow Sundayze to access your camera</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow Sundayze to access your photo library</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow Sundayze to access you microphone</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Your message to user when the photo library is accessed for the first time</string>
 </dict>
 </plist>
