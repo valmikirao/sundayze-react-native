@@ -1,4 +1,4 @@
-package com.reactnativeclean;
+package io.sundayze;
 
 import com.facebook.react.ReactActivity;
 
