@@ -23,7 +23,7 @@ export class Camera extends React.Component {
         permissionDialogTitle={'Permission to use camera'}
         permissionDialogMessage={'We need your permission to use your camera phone'}
       />,
-      <View key={ ++key }style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+      <View key={ ++key } style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
         <TouchableOpacity
           onPress={this.takePicture.bind(this)}
           style={styles.capture}

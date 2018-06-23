@@ -2,10 +2,25 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import {Alert} from 'react-native';
 
-export function sdzConnect({base, pick = null, dispatch = {}, connect_ = connect}) {
-  const mapStateToProps = pick ?
-    (state) => {return _.pick(base(state), pick)}
-    : base;
+export function sdzConnect({
+   base = null,
+   pick = null,
+   dispatch = {},
+   connect_ = connect
+}) {
+
+  let mapStateToProps;
+  if (base && pick) {
+    mapStateToProps = (state) => {
+      return _.pick(base(state), pick);
+    };
+  }
+  else if (base && ! pick) {
+    mapStateToProps = base;
+  }
+  else {
+    mapStateToProps = null;
+  }
 
   const dispatch_ = dispatch;
   const mapDispatchToProps = (dispatch) => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
   Text,
   View,
@@ -12,6 +11,8 @@ import _ from 'lodash';
 
 import { styles, images } from '../styles/group-view-styles';
 import { sdzConnect } from "../redux-utils";
+import { Actions } from "../redux-reducer";
+import { Camera } from "./camera";
 
 class SharedItem extends React.Component {
   render () {
@@ -31,7 +32,7 @@ class SharedItem extends React.Component {
 }
 
 export const StreamOfSharedItems = sdzConnect({
-  base : state => state,
+  base : state => state.view,
   pick : ['sharedItems']
 })(class extends React.Component {
   render() {
@@ -60,28 +61,41 @@ function _debugAlert() {
     Alert.alert('Hello','World');
 }
 
-class BottomBar extends React.Component {
+const BottomBar = sdzConnect({
+  dispatch : {
+    openCamera : Actions.openCamera
+  }
+})(class extends React.Component {
   render() {
     let key = 0;
-    const { key_ } = this.props
+    const { key_, openCamera } = this.props;
 
     return <View key={ key_ } style={ styles.bottomBar }>
-      <TouchableOpacity onPress={ _debugAlert }>
+      <TouchableOpacity onPress={ openCamera }>
         <Image key={ ++key } style={ styles.bottomBar_takePicImage } source={ images.takePic }/>
       </TouchableOpacity>
       <Image key={ ++key } style={ styles.bottomBar_writeNoteImage } source={ images.writeNote }/>
     </View>
   }
-}
+});
 
-export class GroupView extends React.Component {
+export const GroupView = sdzConnect({
+  base : state => state.view,
+  pick : ['cameraActive'],
+})(class extends React.Component {
 
   render() {
     let key = 0;
 
-    return <View>
-      <StreamOfSharedItems key_={ ++key }/>
-      <BottomBar key_={ ++key }/>
-    </View>;
+    if (!this.props.cameraActive) {
+      return <View>
+        <StreamOfSharedItems key_={ ++key } key={ key }/>,
+        <BottomBar key_={ ++key } key={ key }/>
+      </View>;
+    }
+    else {
+      return <Camera/>;
+    }
   }
-}
+
+});
