@@ -29,10 +29,13 @@ export const styles = StyleSheet.create({
   bottomBar_writeNoteImage: {
     height: 30,
     width: 30
+  },
+  sharedItemsList: {
+    height: 575
   }
 });
 
 export const images = {
-  takePicImage: require('../../src-assets/camera.png'),
-  writeNoteImage: require('../../src-assets/pencil.png')
+  takePic: require('../../src-assets/camera.png'),
+  writeNote: require('../../src-assets/pencil.png')
 }

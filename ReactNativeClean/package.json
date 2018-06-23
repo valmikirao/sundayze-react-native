@@ -17,6 +17,7 @@
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-camera": "^1.1.4",
+    "react-native-easy-grid": "^0.1.17",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "timers": "^0.1.1"
