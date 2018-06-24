@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   sharedItem_view : {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   bottomBar: {
     // position: "absolute",
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     opacity: 1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "lightblue"
   },
@@ -31,7 +31,10 @@ export const styles = StyleSheet.create({
     width: 30
   },
   sharedItemsList: {
-    height: 575
+    flex: 1
+  },
+  groupView: {
+    flex: 1
   }
 });
 

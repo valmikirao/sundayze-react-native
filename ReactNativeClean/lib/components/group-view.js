@@ -18,15 +18,14 @@ class SharedItem extends React.Component {
   render () {
     let key = 0;
 
-    const { note, pic, key_ } = this.props;
+    const { note, pic } = this.props;
     
-    return  <View key={ key_ } style={styles.sharedItem_view}>
+    return  <View style={styles.sharedItem_view}>
         <Image
-          key={ ++key }
           style={ styles.sharedItem_image }
           source={ pic }
         />
-        <Text key={ ++key }>{note}</Text>
+        <Text>{note}</Text>
     </View>
   }
 }
@@ -36,30 +35,25 @@ export const StreamOfSharedItems = sdzConnect({
   pick : ['sharedItems']
 })(class extends React.Component {
   render() {
-    let key = 0;
     const { sharedItems } = this.props;
-    const { key_ } = this.props
-    // const { sharedItems } = this.props;
-    
+
     const data = sharedItems.map(
       item => _.pick(item, ['note', 'time', 'pic'])
     );
     
     function renderItem({item}) {
       const { note, time, pic } = item;
-      return <SharedItem key_={ ++key } note={ note } time={ time } pic={ pic }/>
+      return <SharedItem note={ note } time={ time } pic={ pic }/>
     }
-    
-    return <FlatList key={ key_ } style={ styles.sharedItemsList }
+
+    let key = 0;
+    return <View style={ styles.sharedItemsList }><FlatList
       data={ data }
       renderItem={ renderItem }
-    />
+      keyExtractor={ () => `${++key}` }
+    /></View>
   }
-})
-
-function _debugAlert() {
-    Alert.alert('Hello','World');
-}
+});
 
 const BottomBar = sdzConnect({
   dispatch : {
@@ -67,14 +61,13 @@ const BottomBar = sdzConnect({
   }
 })(class extends React.Component {
   render() {
-    let key = 0;
-    const { key_, openCamera } = this.props;
+    const { openCamera } = this.props;
 
-    return <View key={ key_ } style={ styles.bottomBar }>
+    return <View style={ styles.bottomBar }>
       <TouchableOpacity onPress={ openCamera }>
-        <Image key={ ++key } style={ styles.bottomBar_takePicImage } source={ images.takePic }/>
+        <Image style={ styles.bottomBar_takePicImage } source={ images.takePic }/>
       </TouchableOpacity>
-      <Image key={ ++key } style={ styles.bottomBar_writeNoteImage } source={ images.writeNote }/>
+      <Image style={ styles.bottomBar_writeNoteImage } source={ images.writeNote }/>
     </View>
   }
 });
@@ -85,12 +78,10 @@ export const GroupView = sdzConnect({
 })(class extends React.Component {
 
   render() {
-    let key = 0;
-
     if (!this.props.cameraActive) {
-      return <View>
-        <StreamOfSharedItems key_={ ++key } key={ key }/>,
-        <BottomBar key_={ ++key } key={ key }/>
+      return <View style={ styles.groupView }>
+        <StreamOfSharedItems />,
+        <BottomBar/>
       </View>;
     }
     else {
