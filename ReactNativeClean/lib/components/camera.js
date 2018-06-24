@@ -6,22 +6,15 @@ import {
   View
 } from 'react-native';
 
-import {RNCamera} from "react-native-camera";
+// import {RNCamera} from "react-native-camera";
 
 export class Camera extends React.Component {
   render() {
     let key = 0;
 
     return [
-      <RNCamera key={ ++key }
-        ref={ref => {
-          this.camera = ref;
-        }}
-        style={styles.preview}
-        type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.on}
-        permissionDialogTitle={'Permission to use camera'}
-        permissionDialogMessage={'We need your permission to use your camera phone'}
+      <View key={ ++key }
+        style={{flex: 1}}
       />,
       <View key={ ++key } style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
         <TouchableOpacity
