@@ -6,6 +6,11 @@ import {
   View
 } from 'react-native';
 
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+Amplify.configure(config);
+
+import { withAuthenticator } from 'aws-amplify-react-native'
 
 // import Stream from './lib/stream-for-client';
 import { GroupView } from './lib/components/group-view';
@@ -45,12 +50,12 @@ class App extends React.Component {
 let store = createStore(reducer);
 store.dispatch(Actions.init());
 
-export default class ReduxApp extends React.Component {
+export default ReduxApp = withAuthenticator(class extends React.Component {
   render() {
     return <Provider store={ store }>
       <App/>
     </Provider>;
   }
-}
+});
 
 AppRegistry.registerComponent('AwesomeProject', () => ReduxApp);
