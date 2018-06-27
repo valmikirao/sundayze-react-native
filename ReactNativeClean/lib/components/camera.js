@@ -6,7 +6,9 @@ import {
   View
 } from 'react-native';
 
-import {RNCamera} from "react-native-camera";
+import { RNCamera } from "react-native-camera";
+import { Storage } from 'aws-amplify';
+import { Buffer } from 'buffer';
 
 export class Camera extends React.Component {
   render() {
@@ -36,9 +38,23 @@ export class Camera extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
-      const options = {quality: 0.5, base64: true};
-      const data = await this.camera.takePictureAsync(options)
-      console.log(data.uri);
+      try {
+        const pic = await this.camera.takePictureAsync({
+          quality: 0.5,
+          base64: true
+        });
+        const blob = await fetch(pic.uri).then(res => res.blob());
+        const key = 'pic-' + Date.now().toString() + '.jpg';
+
+        const result =  await Storage.put(key, blob, {
+          contentType: 'image/jpeg'
+        });
+
+        console.log(result);
+      }
+      catch (err) {
+        console.error(err);
+      }
     }
   };
 }

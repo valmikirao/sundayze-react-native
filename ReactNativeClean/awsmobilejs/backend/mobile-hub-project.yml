@@ -23,5 +23,9 @@ features:
             require-numbers: true
             require-symbols: true
             require-upper-case: true
+  user-files: !com.amazonaws.mobilehub.v0.UserFiles 
+    attributes:
+      enabled: true
+      wildcard-cors-policy: true
 name: sundayze-io
 region: us-east-1
