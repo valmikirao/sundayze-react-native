@@ -8,7 +8,6 @@ import {
 
 import { RNCamera } from "react-native-camera";
 import { Storage } from 'aws-amplify';
-import { Buffer } from 'buffer';
 
 export class Camera extends React.Component {
   render() {
@@ -27,7 +26,7 @@ export class Camera extends React.Component {
       />,
       <View key={ ++key } style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
         <TouchableOpacity
-          onPress={this.takePicture.bind(this)}
+          onPress={() => this.takePicture(this.camera)}
           style={styles.capture}
         >
         <Text style={{fontSize: 14}}> SNAP </Text>
@@ -36,27 +35,28 @@ export class Camera extends React.Component {
     ];
   }
 
-  takePicture = async function () {
-    if (this.camera) {
-      try {
-        const pic = await this.camera.takePictureAsync({
-          quality: 0.5,
-          base64: true
-        });
-        const blob = await fetch(pic.uri).then(res => res.blob());
-        const key = 'pic-' + Date.now().toString() + '.jpg';
+  takePicture = function (camera) {
+    if (camera) {
+      camera.takePictureAsync({
+        quality: 0.5,
+        base64: true
+      })
+        .then(pic => fetch(pic.uri))
+        .then(res => res.blob())
+        .then(blob => {
+          const key = 'pic-' + Date.now().toString() + '.jpg';
 
-        const result =  await Storage.put(key, blob, {
-          contentType: 'image/jpeg'
-        });
-
-        console.log(result);
-      }
-      catch (err) {
-        console.error(err);
-      }
+          return Storage.put(key, blob, {
+            contentType: 'image/jpeg'
+          });
+        })
+        .then(res => console.log(res))
+        .catch(err => console.error(err))
     }
-  };
+    else {
+      console.error('Camera not there');
+    }
+  }
 }
 
 const styles = StyleSheet.create({

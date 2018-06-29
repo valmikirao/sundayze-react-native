@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { S3Image } from 'aws-amplify-react-native';
 import _ from 'lodash';
 
 import { styles, images } from '../styles/group-view-styles';
@@ -16,16 +17,19 @@ import { Camera } from "./camera";
 
 class SharedItem extends React.Component {
   render () {
-    let key = 0;
+    const { note, image, time } = this.props;
 
-    const { note, pic } = this.props;
-    
+    if (image) {
+      debugger;
+      console.log(image);
+    }
+
+    const imageComponent = image ? <S3Image
+      imgKey={ image }
+    /> : '';
     return  <View style={styles.sharedItem_view}>
-        <Image
-          style={ styles.sharedItem_image }
-          source={ pic }
-        />
-        <Text>{note}</Text>
+      { imageComponent }
+      <Text> { note } as { time } </Text>
     </View>
   }
 }
@@ -38,12 +42,12 @@ export const StreamOfSharedItems = sdzConnect({
     const { sharedItems } = this.props;
 
     const data = sharedItems.map(
-      item => _.pick(item, ['note', 'time', 'pic'])
+      item => _.pick(item, ['note', 'time', 'image'])
     );
     
     function renderItem({item}) {
-      const { note, time, pic } = item;
-      return <SharedItem note={ note } time={ time } pic={ pic }/>
+      const { note, time, image } = item;
+      return <SharedItem note={ note } time={ time } image={ image }/>
     }
 
     let key = 0;
