@@ -35,35 +35,56 @@ export function reducer(state, action) {
     case Types.INIT : {
       return {
         data : {},
-        view: { sharedItems : [] }
+        view: {
+          cameraActive : false
+        }
       }
     }
     case Types.OPEN_CAMERA : {
       return {
-        ...state,
+        data : { ...state.data },
         view : {
-          ...state.view,
           cameraActive : true
         }
       }
     }
     case Types.FETCHED_SHARED_ITEM : {
-      return fetchedSharedItems(state, action.payload);
+      const sharedItemsData = appendFetchedSharedItems(state, action.payload);
+
+      const { cameraActive } = state.view;
+      const sharedItemsView = ! cameraActive &&
+        sharedItemsDataToView(sharedItemsData);
+
+      return {
+        data : { sharedItems : sharedItemsData },
+        view : {
+          cameraActive,
+          sharedItems : sharedItemsView
+        }
+      };
+    }
+    case Types.CLOSE_CAMERA : {
+      const sharedItemsView = sharedItemsDataToView(state.data.sharedItems);
+
+      return {
+        data : { ...state.data },
+        view : { sharedItems : sharedItemsView }
+      }
     }
     default :
       return state;
   }
 }
 
-function fetchedSharedItems(state, fetchedItemsRaw) {
-  const fetchedItems = fetchedItemsRaw.map(raw => ( {
+function appendFetchedSharedItems(state, fetchedItemsRaw) {
+  const fetchedItems = fetchedItemsRaw.map(raw => ({
     id: raw.id,
     note: raw.note,
     image: raw.image,
     time: moment(raw.time, 'YYYY-MM-DD[T]HH:mm:ss.SSS')
   }));
 
-  const { sharedItems = [] } = state.data;
+  const {sharedItems = []} = state.data;
 
   let allSharedItems = [
     ...sharedItems,
@@ -72,30 +93,26 @@ function fetchedSharedItems(state, fetchedItemsRaw) {
 
   allSharedItems = _.orderBy(allSharedItems, ['time', 'id'], ['desc']); // sort by id to keep deterministic
 
+  return allSharedItems;
+}
+
+function sharedItemsDataToView(allSharedItems) {
   const sharedItemsView = allSharedItems.map(item => ({
-    note : item.note,
-    image : item.image,
-    time : item.time.format('MM/DD/YYYY HH:mm')
+    note: item.note,
+    image: item.image,
+    time: item.time.format('MM/DD/YYYY HH:mm')
   }));
 
   // TODO: timezones?
 
-  return {
-    data : {
-      ...state.data,
-      sharedItems : allSharedItems,
-    },
-    view : {
-      ...state.view,
-      sharedItems : sharedItemsView,
-    }
-  }
+  return sharedItemsView;
 }
 
 const Types = {
+  CLOSE_CAMERA        : 'CLOSE_CAMERA',
+  FETCHED_SHARED_ITEM : 'FETCHED_SHARED_ITEM',
   INIT                : 'INIT',
-  OPEN_CAMERA         : 'OPEN_CAMERA',
-  FETCHED_SHARED_ITEM : 'FETCHED_SHARED_ITEM'
+  OPEN_CAMERA         : 'OPEN_CAMERA'
 };
 
 export class Actions {
@@ -105,6 +122,10 @@ export class Actions {
 
   static openCamera() {
     return { type: Types.OPEN_CAMERA }
+  }
+
+  static closeCamera() {
+    return { type: Types.CLOSE_CAMERA }
   }
 
   static fetchedSharedItems(sharedItems) {

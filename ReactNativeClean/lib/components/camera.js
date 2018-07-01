@@ -6,10 +6,17 @@ import {
   View
 } from 'react-native';
 
-import { RNCamera } from "react-native-camera";
+import { RNCamera } from 'react-native-camera';
 import { Storage } from 'aws-amplify';
 
-export class Camera extends React.Component {
+import StreamClient from '../../lib/stream-for-client';
+import { sdzConnect } from "../redux-utils";
+import {Actions} from "../redux-reducer";
+
+
+export const Camera = sdzConnect({
+  dispatch : { closeCamera : Actions.closeCamera }
+})(class extends React.Component {
   render() {
     let key = 0;
 
@@ -37,19 +44,26 @@ export class Camera extends React.Component {
 
   takePicture = function (camera) {
     if (camera) {
-      camera.takePictureAsync({
-        quality: 0.5,
-        base64: true
+      this.props.closeCamera();
+
+      const picKey = 'pic-' + Date.now().toString() + '.jpg';
+
+      const pStorePic = camera.takePictureAsync({
+        quality : 0.5,
+        base64 : true
       })
         .then(pic => fetch(pic.uri))
         .then(res => res.blob())
-        .then(blob => {
-          const key = 'pic-' + Date.now().toString() + '.jpg';
+        .then(blob => Storage.put(picKey, blob, {
+          contentType: 'image/jpeg'
+        }));
 
-          return Storage.put(key, blob, {
-            contentType: 'image/jpeg'
-          });
-        })
+      const pSharePic = StreamClient.shareToronto({
+        note : 'Generic note for picture',
+        image : picKey
+      });
+
+      Promise.all([ pStorePic, pSharePic ])
         .then(res => console.log(res))
         .catch(err => console.error(err))
     }
@@ -57,7 +71,7 @@ export class Camera extends React.Component {
       console.error('Camera not there');
     }
   }
-}
+})
 
 const styles = StyleSheet.create({
   preview: {
