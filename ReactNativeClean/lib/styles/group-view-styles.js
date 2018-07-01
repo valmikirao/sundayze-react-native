@@ -2,12 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   sharedItem_image : {
-      width: 300,
-      height: 400
+    width: 300,
+    height: 400,
+    margin: 3
   },
   sharedItem_view : {
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 5
   },
   bottomBar: {
     // position: "absolute",

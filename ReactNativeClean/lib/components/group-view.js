@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
-import { S3Image } from 'aws-amplify-react-native';
 import _ from 'lodash';
+import { Storage } from 'aws-amplify';
 
 import { styles, images } from '../styles/group-view-styles';
 import { sdzConnect } from "../redux-utils";
@@ -16,19 +16,26 @@ import { Actions } from "../redux-reducer";
 import { Camera } from "./camera";
 
 class SharedItem extends React.Component {
-  render () {
-    const { note, image, time } = this.props;
+  constructor(props) {
+    super(props);
 
-    if (image) {
-      debugger;
-      console.log(image);
+    this.state = { imageSource : null };
+
+    // Couldn't get S3Image to work, so doing this
+    if (props.image) {
+      Storage.get(props.image)
+        .then(uri => this.setState({ imageSource: { uri } }));
     }
+  }
 
-    const imageComponent = image ? <S3Image
-      imgKey={ image }
-    /> : '';
+  render () {
+    const { note, time } = this.props;
+
     return  <View style={styles.sharedItem_view}>
-      { imageComponent }
+      { this.state.imageSource && <Image
+        source={ this.state.imageSource }
+        style={ styles.sharedItem_image }
+      /> }
       <Text> { note } as { time } </Text>
     </View>
   }
