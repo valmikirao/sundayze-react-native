@@ -76,7 +76,7 @@ export const StreamOfSharedItems = sdzConnect({
   pick : ['sharedItems']
 })(class extends React.Component {
   render() {
-    const { sharedItems } = this.props;
+    const { sharedItems = [] } = this.props;
 
     const data = sharedItems.map(
       item => _.pick(item, ['note', 'time', 'image'])

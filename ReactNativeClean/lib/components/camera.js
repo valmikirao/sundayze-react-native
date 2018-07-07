@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  TextInput
 } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
@@ -11,12 +12,17 @@ import { Storage } from 'aws-amplify';
 
 import StreamClient from '../../lib/stream-for-client';
 import { sdzConnect } from "../redux-utils";
-import {Actions} from "../redux-reducer";
+import { Actions } from "../redux-reducer";
 
 
 export const Camera = sdzConnect({
   dispatch : { closeCamera : Actions.closeCamera }
 })(class extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { note : null };
+  }
   render() {
     let key = 0;
 
@@ -36,7 +42,12 @@ export const Camera = sdzConnect({
           onPress={() => this.takePicture(this.camera)}
           style={styles.capture}
         >
-        <Text style={{fontSize: 14}}> SNAP </Text>
+          <TextInput
+            style={{height: 40}}
+            placeholder="Note for pic"
+            onChangeText={(note) => this.setState({ note })}
+          />
+          <Text style={{fontSize: 14}}> SNAP </Text>
         </TouchableOpacity>
       </View>
     ];
@@ -58,8 +69,9 @@ export const Camera = sdzConnect({
           contentType: 'image/jpeg'
         }));
 
+      const { note = '' } = this.state;
       const pSharePic = StreamClient.shareToronto({
-        note : 'Generic note for picture',
+        note,
         image : picKey
       });
 
