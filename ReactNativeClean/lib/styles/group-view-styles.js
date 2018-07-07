@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  sharedItem_image : {
+  sharedItem_pic : {
     width: 300,
     height: 400,
     margin: 3

@@ -56,14 +56,12 @@ export const Camera = sdzConnect({
         .then(res => res.blob())
         .then(blob => Storage.put(picKey, blob, {
           contentType: 'image/jpeg'
-        }));
-
-      const pSharePic = StreamClient.shareToronto({
-        note : 'Generic note for picture',
-        image : picKey
-      });
-
-      Promise.all([ pStorePic, pSharePic ])
+        }))
+        .then(({key}) => Storage.get(key))
+        .then(picUri => StreamClient.shareToronto({
+          note : 'Generic note for picture',
+          picUri
+        }))
         .then(res => console.log(res))
         .catch(err => console.error(err))
     }

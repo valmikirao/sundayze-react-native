@@ -78,9 +78,7 @@ export function reducer(state, action) {
 
 function appendFetchedSharedItems(state, fetchedItemsRaw) {
   const fetchedItems = fetchedItemsRaw.map(raw => ({
-    id: raw.id,
-    note: raw.note,
-    image: raw.image,
+    ..._.pick(raw, ['id', 'note', 'picUri']),
     time: moment(raw.time, 'YYYY-MM-DD[T]HH:mm:ss.SSS')
   }));
 
@@ -99,11 +97,11 @@ function appendFetchedSharedItems(state, fetchedItemsRaw) {
 function sharedItemsDataToView(allSharedItems) {
   const sharedItemsView = allSharedItems.map(item => ({
     note: item.note,
-    image: item.image,
+    picUri: item.picUri,
     time: item.time.format('MM/DD/YYYY HH:mm')
   }));
 
-  // TODO: timezones?
+  // FUTURE: timezones?
 
   return sharedItemsView;
 }

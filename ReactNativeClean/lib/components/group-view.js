@@ -16,25 +16,13 @@ import { Actions } from "../redux-reducer";
 import { Camera } from "./camera";
 
 class SharedItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { imageSource : null };
-
-    // Couldn't get S3Image to work, so doing this
-    if (props.image) {
-      Storage.get(props.image)
-        .then(uri => this.setState({ imageSource: { uri } }));
-    }
-  }
-
   render () {
-    const { note, time } = this.props;
+    const { note, time, picUri } = this.props;
 
     return  <View style={styles.sharedItem_view}>
-      { this.state.imageSource && <Image
-        source={ this.state.imageSource }
-        style={ styles.sharedItem_image }
+      { picUri && <Image
+        source={ { uri: picUri } }
+        style={ styles.sharedItem_pic }
       /> }
       <Text> { note } as { time } </Text>
     </View>
@@ -46,15 +34,14 @@ export const StreamOfSharedItems = sdzConnect({
   pick : ['sharedItems']
 })(class extends React.Component {
   render() {
-    const { sharedItems } = this.props;
-
+    const { sharedItems = [] } = this.props;
     const data = sharedItems.map(
-      item => _.pick(item, ['note', 'time', 'image'])
+      item => _.pick(item, ['note', 'time', 'picUri'])
     );
     
     function renderItem({item}) {
-      const { note, time, image } = item;
-      return <SharedItem note={ note } time={ time } image={ image }/>
+      const { note, time, picUri } = item;
+      return <SharedItem note={ note } time={ time } picUri={ picUri }/>
     }
 
     let key = 0;

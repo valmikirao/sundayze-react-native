@@ -7,12 +7,12 @@ const client = Stream.connect('htk5qzfncgtm', null, '38287');
 
 const torontoFeed = client.feed('group', 'toronto-friends', '9X0CQU2PQ_X4g3z5XPi6qdZDeJ0');
 
-function shareToronto({note, image = null}) {
+function shareToronto({note, picUri = null}) {
   const object = `${moment.now()}`;
 
   return torontoFeed.addActivity({
     verb: 'share',
-    note, image,
+    note, picUri,
     object,
     actor : 'lara'
   })
