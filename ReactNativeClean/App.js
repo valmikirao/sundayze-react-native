@@ -1,11 +1,12 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider }  from 'react-redux';
 import {
   AppRegistry,
   View
 } from 'react-native';
 import { withAuthenticator } from 'aws-amplify-react-native'
+import { createLogger }from 'redux-logger';
 
 import Amplify from 'aws-amplify';
 import config from './aws-exports';
@@ -32,7 +33,11 @@ class App extends React.Component {
 
 }
 
-let store = createStore(reducer);
+const reduxLogger = createLogger({});
+let store = createStore(
+  reducer,
+  applyMiddleware(reduxLogger)
+);
 store.dispatch(Actions.init());
 
 Stream.listToronto(newItems => store.dispatch(

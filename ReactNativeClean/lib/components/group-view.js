@@ -19,13 +19,43 @@ class SharedItem extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { imageSource : null };
+    this.state = {
+      imageSource : null,
+      mounted : false
+    };
 
     // Couldn't get S3Image to work, so doing this
     if (props.image) {
       Storage.get(props.image)
-        .then(uri => this.setState({ imageSource: { uri } }));
+        .then(uri => {
+          const newState = {
+            ...this.state,
+            imageSource: { uri }
+          };
+
+          // ugh, only want to call setState if this is mounted
+          if (this.state.mounted) {
+            this.setState(newState);
+          }
+          else {
+            this.state = newState;
+          }
+        });
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      mounted : true
+    })
+  }
+
+  componentWillUnmount() {
+    this.state = {
+      ...this.state,
+      mounted : false
+    };
   }
 
   render () {

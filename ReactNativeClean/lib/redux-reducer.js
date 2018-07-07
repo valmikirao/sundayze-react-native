@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 
 const image_x = require('../src-assets/X.png');
@@ -81,7 +81,8 @@ function appendFetchedSharedItems(state, fetchedItemsRaw) {
     id: raw.id,
     note: raw.note,
     image: raw.image,
-    time: moment(raw.time, 'YYYY-MM-DD[T]HH:mm:ss.SSS')
+    // These seem to be GMT, so store them as such
+    time: moment.tz(raw.time, 'YYYY-MM-DD[T]HH:mm:ss.SSS', 'GMT')
   }));
 
   const {sharedItems = []} = state.data;
@@ -97,10 +98,14 @@ function appendFetchedSharedItems(state, fetchedItemsRaw) {
 }
 
 function sharedItemsDataToView(allSharedItems) {
+
+  // current timezone
+  const tz = moment.tz.guess();
+
   const sharedItemsView = allSharedItems.map(item => ({
     note: item.note,
     image: item.image,
-    time: item.time.format('MM/DD/YYYY HH:mm')
+    time: item.time.tz(tz).format('MM/DD/YYYY HH:mm')
   }));
 
   // TODO: timezones?
