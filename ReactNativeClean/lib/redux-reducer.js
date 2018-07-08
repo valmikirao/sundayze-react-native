@@ -97,7 +97,7 @@ function appendFetchedSharedItems(state, fetchedItemsRaw) {
   return allSharedItems;
 }
 
-function sharedItemsDataToView(allSharedItems) {
+function sharedItemsDataToView(allSharedItems = []) {
 
   // current timezone
   const tz = moment.tz.guess();
@@ -107,8 +107,6 @@ function sharedItemsDataToView(allSharedItems) {
     image: item.image,
     time: item.time.tz(tz).format('MM/DD/YYYY HH:mm')
   }));
-
-  // TODO: timezones?
 
   return sharedItemsView;
 }
