@@ -2,34 +2,6 @@ import { Alert } from "react-native";
 import _ from 'lodash';
 import moment from 'moment-timezone';
 
-
-const image_x = require('../src-assets/X.png');
-const selfie = require('../src-assets/selfie.png');
-const selfie2 = require('../src-assets/selfie-2.png');
-
-let DEBUG_SHARED_ITEMS = [
-  {
-    note: 'Hello 3',
-    time: '1/1/2018',
-    pic: selfie
-  },
-  {
-    note: 'Goodbye',
-    time: '1/1/2019',
-    pic: selfie2,
-  },
-  {
-    note: 'Good morning',
-    time: '1/2/2019',
-    pic: selfie,
-  },
-  {
-    note: 'Good evening',
-    time: '1/2/2019',
-    pic: selfie2,
-  }
-];
-
 export function reducer(state, action) {
   switch (action.type) {
     case Types.INIT : {
@@ -103,19 +75,21 @@ function sharedItemsDataToView(allSharedItems = []) {
   const tz = moment.tz.guess();
 
   const sharedItemsView = allSharedItems.map(item => ({
-    note: item.note,
-    image: item.image,
-    time: item.time.tz(tz).format('MM/DD/YYYY HH:mm')
+    note : item.note,
+    image : item.image,
+    time : item.time.tz(tz).format('MM/DD/YYYY HH:mm')
   }));
 
   return sharedItemsView;
 }
 
 const Types = {
-  CLOSE_CAMERA        : 'CLOSE_CAMERA',
+  CLOSE_CAMERA : 'CLOSE_CAMERA',
   FETCHED_SHARED_ITEM : 'FETCHED_SHARED_ITEM',
-  INIT                : 'INIT',
-  OPEN_CAMERA         : 'OPEN_CAMERA'
+  INIT : 'INIT',
+  OPEN_CAMERA : 'OPEN_CAMERA',
+  SIGN_IN : 'SIGN_IN',
+  SIGN_OUT : 'SIGN_OUT'
 };
 
 export class Actions {
@@ -136,6 +110,15 @@ export class Actions {
       type : Types.FETCHED_SHARED_ITEM,
       payload : sharedItems,
     }
+  }
+
+  // not used yet
+  static signOut() {
+    return { type: Types.SIGN_OUT }
+  }
+
+  static signIn() {
+    return { type : Types.SIGN_IN }
   }
 }
 

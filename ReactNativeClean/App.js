@@ -3,7 +3,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider }  from 'react-redux';
 import {
   AppRegistry,
-  View
+  View,
+  Platform
 } from 'react-native';
 import { withAuthenticator } from 'aws-amplify-react-native'
 import { createLogger }from 'redux-logger';
@@ -33,7 +34,29 @@ class App extends React.Component {
 
 }
 
-const reduxLogger = createLogger({});
+let stateLogCount = 0;
+let actionLogCount = 0;
+const reduxLogger = createLogger({
+  stateTransformer : state => {
+    // seem to need to deffer these to make them work properly
+    setTimeout(() => {
+      console.groupCollapsed('state {' + stateLogCount++ + '}');
+      console.log(JSON.stringify(state, null, 2)); // useful for copy paste
+      console.groupEnd();
+    }, 0);
+
+    return state;
+  },
+  actionTransformer : action => {
+    setTimeout(() => {
+      console.groupCollapsed('action {' + actionLogCount++ + '}');
+      console.log(JSON.stringify(action, null, 2)); // useful for copy paste
+      console.groupEnd();
+    }, 0);
+
+    return action;
+  }
+});
 let store = createStore(
   reducer,
   applyMiddleware(reduxLogger)

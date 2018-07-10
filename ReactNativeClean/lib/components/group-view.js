@@ -107,7 +107,6 @@ const BottomBar = sdzConnect({
 
     const signOut = () => {
       Auth.signOut();
-      dispatch.init();
     };
 
     return <View style={ styles.bottomBar }>
