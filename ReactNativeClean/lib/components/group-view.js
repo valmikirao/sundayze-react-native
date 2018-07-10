@@ -8,7 +8,7 @@ import {
   Alert
 } from 'react-native';
 import _ from 'lodash';
-import { Storage } from 'aws-amplify';
+import { Storage, Auth } from 'aws-amplify';
 
 import { styles, images } from '../styles/group-view-styles';
 import { sdzConnect } from "../redux-utils";
@@ -89,7 +89,7 @@ export const StreamOfSharedItems = sdzConnect({
 
     let key = 0;
     return <View style={ styles.sharedItemsList }><FlatList
-      data={ data }
+      data={ data }ut
       renderItem={ renderItem }
       keyExtractor={ () => `${++key}` }
     /></View>
@@ -98,17 +98,25 @@ export const StreamOfSharedItems = sdzConnect({
 
 const BottomBar = sdzConnect({
   dispatch : {
-    openCamera : Actions.openCamera
+    openCamera : Actions.openCamera,
+    init: Actions.init
   }
 })(class extends React.Component {
   render() {
-    const { openCamera } = this.props;
+    const dispatch = _.pick(this.props, ['openCamera', 'init']);
+
+    const signOut = () => {
+      Auth.signOut();
+    };
 
     return <View style={ styles.bottomBar }>
-      <TouchableOpacity onPress={ openCamera }>
+      <TouchableOpacity onPress={ dispatch.openCamera }>
         <Image style={ styles.bottomBar_takePicImage } source={ images.takePic }/>
       </TouchableOpacity>
       <Image style={ styles.bottomBar_writeNoteImage } source={ images.writeNote }/>
+      <TouchableOpacity onPress={ signOut }>
+        <Image style={ styles.bottomBar_signOutImage } source={ images.signOut }/>
+      </TouchableOpacity>
     </View>
   }
 });

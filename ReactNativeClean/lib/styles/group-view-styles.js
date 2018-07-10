@@ -32,6 +32,10 @@ export const styles = StyleSheet.create({
     height: 30,
     width: 30
   },
+  bottomBar_signOutImage: {
+    height: 30,
+    width: 30
+  },
   sharedItemsList: {
     flex: 1
   },
@@ -42,5 +46,6 @@ export const styles = StyleSheet.create({
 
 export const images = {
   takePic: require('../../src-assets/camera.png'),
-  writeNote: require('../../src-assets/pencil.png')
+  writeNote: require('../../src-assets/pencil.png'),
+  signOut: require('../../src-assets/sign_out.png')
 }
