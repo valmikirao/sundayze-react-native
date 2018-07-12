@@ -4,7 +4,24 @@ First, @valmikirao will have to give you access to the aws mobile app I think.
 
 To run (untested):
 
+Global things you need:
 
+```
+# node and watchman, if you don't have them
+brew install node
+brew install watchman
+
+# other tools
+npm install -g react-native-cli
+npm install -g awsmobile-cli
+
+awsmobile configure
+
+# Also: Have JDK >= 1.7 installed
+
+```
+
+Setting up the repo:
 ```
 git clone https://github.com/valmikirao/sundayze-react-native.git
 cd sundayze-react-native/SundayzeRN
