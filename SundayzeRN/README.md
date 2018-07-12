@@ -11,6 +11,12 @@ Global things you need:
 brew install node
 brew install watchman
 
+# aws access tools
+# You will need a valid aws use in this account, you can sign in here:
+# https://463568659849.signin.aws.amazon.com/console
+pip install awscli
+# TODO: Add other setup stuff to like to the account
+
 # other tools
 npm install -g react-native-cli
 npm install -g awsmobile-cli
