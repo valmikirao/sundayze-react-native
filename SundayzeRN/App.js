@@ -57,7 +57,10 @@ const reduxLogger = createLogger({
     return action;
   }
 });
-let store = createStore(reducer);
+let store = createStore(
+  reducer,
+  applyMiddleware(reduxLogger)
+);
 store.dispatch(Actions.init());
 
 Stream.listToronto(newItems => store.dispatch(
