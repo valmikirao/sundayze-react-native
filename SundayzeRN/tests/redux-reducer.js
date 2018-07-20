@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { createStore } from "redux";
 import moment from 'moment-timezone';
 
-import { Actions, reducer } from "../lib/redux-reducer";
+import { Actions, Screens, reducer } from "../lib/redux-reducer";
 
 describe('#redux-reducer', () => {
   let store = null;
@@ -15,12 +15,7 @@ describe('#redux-reducer', () => {
   it('#init', () => {
     let state = store.getState();
 
-    expect(state).to.deep.equal({
-      "data": {},
-      "view": {
-        "cameraActive": false
-      }
-    });
+    expect(state).to.deep.equal(TestingStates.INIT);
   });
 
   describe('#fetch', () => {
@@ -61,39 +56,7 @@ describe('#redux-reducer', () => {
         item.time = item.time.toISOString();
       });
 
-      expect(state).to.deep.equal({
-        "data": {
-          "sharedItems": [
-            {
-              "id": "bbbbf06d-878c-11e8-9501-0a081e7097fe",
-              "note": "Hhhh",
-              "image": "pic-1531589914852.jpg",
-              "time": "2018-07-14T17:38:34.962Z"
-            },
-            {
-              "id": "f8be9097-8556-11e8-9efe-0a081e7097fe",
-              "note": "Jgjhg",
-              "image": "pic-1531346922140.jpg",
-              "time": "2018-07-11T22:08:42.172Z"
-            }
-          ]
-        },
-        "view": {
-          "cameraActive": false,
-          "sharedItems": [
-            {
-              "note": "Hhhh",
-              "image": "pic-1531589914852.jpg",
-              "time": "07/14/2018 13:38"
-            },
-            {
-              "note": "Jgjhg",
-              "image": "pic-1531346922140.jpg",
-              "time": "07/11/2018 18:08"
-            }
-          ]
-        }
-      })
-    })
+      expect(state).to.deep.equal(TestingStates.FETCHED)
+    });
   });
 });

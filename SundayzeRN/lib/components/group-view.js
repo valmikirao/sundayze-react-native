@@ -5,7 +5,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Alert
+  // Alert
 } from 'react-native';
 import _ from 'lodash';
 import { Storage, Auth } from 'aws-amplify';
@@ -13,7 +13,6 @@ import { Storage, Auth } from 'aws-amplify';
 import { styles, images } from '../styles/group-view-styles';
 import { sdzConnect } from "../redux-utils";
 import { Actions } from "../redux-reducer";
-import { Camera } from "./camera";
 
 class SharedItem extends React.Component {
   constructor(props) {
@@ -89,7 +88,7 @@ export const StreamOfSharedItems = sdzConnect({
 
     let key = 0;
     return <View style={ styles.sharedItemsList }><FlatList
-      data={ data }ut
+      data={ data }
       renderItem={ renderItem }
       keyExtractor={ () => `${++key}` }
     /></View>
@@ -127,15 +126,10 @@ export const GroupView = sdzConnect({
 })(class extends React.Component {
 
   render() {
-    if (!this.props.cameraActive) {
-      return <View style={ styles.groupView }>
-        <StreamOfSharedItems />,
-        <BottomBar/>
-      </View>;
-    }
-    else {
-      return <Camera/>;
-    }
+    return <View style={ styles.groupView }>
+      <StreamOfSharedItems />,
+      <BottomBar/>
+    </View>;
   }
 
 });
