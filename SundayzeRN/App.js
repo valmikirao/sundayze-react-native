@@ -16,50 +16,23 @@ Amplify.configure(config);
 
 import Stream from './lib/stream-for-client';
 import { GroupView } from './lib/components/group-view';
-import { Camera } from './lib/components/camera';
-import { YourGroups } from "./lib/components/your-groups";
-
 import { styles } from './lib/styles/app-styles';
-import { Actions, Screens, reducer } from "./lib/redux-reducer";
-import { sdzConnect } from "./lib/redux-utils";
-import { TestingStates } from "./lib/redux-reducer";
+import { Actions, reducer } from "./lib/redux-reducer";
 
-const App = sdzConnect({
-  base : (state) => state.view,
-  pick : ['screen']
-})(class extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    let inner = null;
-
-    switch (this.props.screen) {
-      case Screens.GROUP_VIEW : {
-        inner = <GroupView/>;
-        break;
-      }
-      case Screens.CAMERA : {
-        inner = <Camera/>;
-        break;
-      }
-      case Screens.YOUR_GROUPS : {
-        inner = <YourGroups/>;
-        break;
-      }
-      default : {
-        throw new DOMException(`[${this.props.screen}] invalid value for props.screen`);
-      }
-    }
-
     return (
       <View style={ styles.app }>
-        { inner }
+        <GroupView/>
       </View>
     );
   }
-});
+
+}
 
 let stateLogCount = 0;
 let actionLogCount = 0;
@@ -88,18 +61,13 @@ let store = createStore(
   reducer,
   applyMiddleware(reduxLogger)
 );
-// const authed = withAuthenticator;
-// store.dispatch(Actions.init());
-// Stream.listToronto(newItems => store.dispatch(
-//   Actions.fetchedSharedItems(newItems)
-// ));
+store.dispatch(Actions.init());
 
-// for debugging
-authed = identity => identity;
-store.dispatch(Actions._testing.setState(TestingStates.NO_GROUPS));
+Stream.listToronto(newItems => store.dispatch(
+  Actions.fetchedSharedItems(newItems)
+));
 
-
-export default ReduxApp = authed(class extends React.Component {
+export default ReduxApp = withAuthenticator(class extends React.Component {
   render() {
     return <Provider store={ store }>
       <App/>
